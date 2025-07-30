@@ -1,11 +1,17 @@
 #timerBox{
     background-color: rgba(29, 29, 29, 0.158);
     height: 50vh;
+    width: 105vw;
+    min-width: 480px;
+    
     display: flex;
+    margin-top: 15px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    justify-self: center;
 }
+
 
 #centerText{
     vertical-align: middle;

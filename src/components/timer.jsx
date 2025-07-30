@@ -9,6 +9,11 @@ function Timer({ time }) {
     const endTimeRef = useRef(null);
 
     useEffect(() => {
+        setTimeRemaining(Number(time) * 60 * 1000);
+        setIsRunning(false);
+    }, [time]);
+
+    useEffect(() => {
         if (isRunning) {
             intervalRef.current = setInterval(() => {
                 const newTimeRemaining = endTimeRef.current - Date.now();
@@ -17,7 +22,7 @@ function Timer({ time }) {
                     setIsRunning(false);
                     clearInterval(intervalRef.current);
                 }
-            }, 100);
+            }, 1000);
         }
 
         return () => {
@@ -26,7 +31,13 @@ function Timer({ time }) {
     }, [isRunning]);
 
     function start() {
-        endTimeRef.current = Date.now() + timeRemaining;
+        if(timeRemaining <= 0){
+            setTimeRemaining(Number(time) * 60 * 1000);
+            endTimeRef.current = Date.now() + Number(time) * 60 * 1000;
+        }
+        else{
+            endTimeRef.current = Date.now() + timeRemaining;
+        }
         setIsRunning(!isRunning);
     }
 
@@ -41,7 +52,7 @@ function Timer({ time }) {
     }
 
     return (
-        <div id='timerBox'>
+        <div id='timerBox' >
             <h1 id='centerText'>{formatTime()}</h1>
             <div id='buttons'>
                 <button onClick={start}>{isRunning ? "Pause" : "Start"}</button>
