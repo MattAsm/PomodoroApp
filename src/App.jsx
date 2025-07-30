@@ -6,7 +6,34 @@ function App() {
 
   const [time, setTime] = useState(25);
 
-  function timeSelect(x, color){
+  function sendWebNotification(title, body, iconURL) {
+    if (!("Notification" in window)) {
+        alert("This browser doesn't support desktop notifications :(");
+        return;
+    }
+
+    if (Notification.permission === "granted") {
+        new Notification(title, { body: body, icon: iconURL, requireInteraction: true });
+    } else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then((permission) => {
+            if (permission === "granted") {
+                new Notification(title, { body: body, icon: iconURL, requireInteraction: true  });
+            }
+        });
+    }
+  }
+
+  useEffect(() => {
+    if (Notification.permission !== "granted" && Notification.permission !== "denied") {
+        Notification.requestPermission().then((permission) => {
+            if (permission !== "granted") {
+                console.log("Notifications not granted.");
+            }
+        });
+    }
+}, []);
+  
+    function timeSelect(x, color){
     document.documentElement.style.setProperty('--dynamic-color', color);
     setTime(x);
   }
@@ -15,10 +42,10 @@ function App() {
     <>
     <div id='timeSelect'>
       <button onClick={() => timeSelect(25, '#fff9a6')}>Work/Study</button>
-      <button onClick={() => timeSelect(5, '#f7c6c2')}>Short Break</button>
+      <button onClick={() => timeSelect(0.1, '#f7c6c2')}>Short Break</button>
       <button onClick={() => timeSelect(15, '#81d1ff')}>Long Break</button>
     </div>
-    <TimerComponent time={time}/>
+    <TimerComponent time={time} sendWebNotification={sendWebNotification}/>
     </>
   )
 }
