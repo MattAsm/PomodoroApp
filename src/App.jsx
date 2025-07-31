@@ -5,6 +5,7 @@ import TimerComponent from './components/timer.jsx'
 function App() {
 
   const [time, setTime] = useState(25);
+  const [notificationMessage, setNotificationMsssage] = useState("Timer completed");
 
   function sendWebNotification(title, body, iconURL) {
     if (!("Notification" in window)) {
@@ -33,19 +34,20 @@ function App() {
     }
 }, []);
   
-    function timeSelect(x, color){
+    function timeSelect(x, color, notifMessage){
     document.documentElement.style.setProperty('--dynamic-color', color);
+    setNotificationMsssage(notifMessage);
     setTime(x);
   }
 
   return (
     <>
     <div id='timeSelect'>
-      <button onClick={() => timeSelect(25, '#fff9a6')}>Work/Study</button>
-      <button onClick={() => timeSelect(0.1, '#f7c6c2')}>Short Break</button>
-      <button onClick={() => timeSelect(15, '#81d1ff')}>Long Break</button>
+      <button onClick={() => timeSelect(25, '#fff9a6', "Time for a break!")}>Work/Study</button>
+      <button onClick={() => timeSelect(5, '#f7c6c2', "Let's get back to work! 💪")}>Short Break</button>
+      <button onClick={() => timeSelect(15, '#81d1ff', "Let's get it done! 😤")}>Long Break</button>
     </div>
-    <TimerComponent time={time} sendWebNotification={sendWebNotification}/>
+    <TimerComponent time={time} sendWebNotification={sendWebNotification} notificationMessage={notificationMessage}/>
     </>
   )
 }

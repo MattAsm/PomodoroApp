@@ -1,11 +1,9 @@
 import './timer.css';
 import React, { useState, useEffect, useRef } from 'react';
 
-function Timer({ time, sendWebNotification }) {
+function Timer({ time, sendWebNotification, notificationMessage }) {
     const [isRunning, setIsRunning] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(Number(time) * 60 * 1000);
-
-    const [pkmnCry, setPkmnCry] = useState(null);
 
     const intervalRef = useRef(null);
     const endTimeRef = useRef(null);
@@ -21,12 +19,10 @@ function Timer({ time, sendWebNotification }) {
                 const newTimeRemaining = endTimeRef.current - Date.now();
                 setTimeRemaining(newTimeRemaining > 0 ? newTimeRemaining : 0);
                 if (newTimeRemaining <= 0) {
-                    /////////////////// Push notification
-                    sendWebNotification("Time's up!", "Timer completed", "");
-                    pkmnCry.play();
-                    ///////////////////
-                    setIsRunning(false);
                     clearInterval(intervalRef.current);
+                    setIsRunning(false);
+                    /////////////////// Push notification
+                    sendWebNotification("Time's up!", `${notificationMessage}`, "");
                 }
             }, 1000);
         }
