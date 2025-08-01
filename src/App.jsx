@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from 'react'
 import './App.css'
 import TimerComponent from './components/timer.jsx'
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
 
 function App() {
 
   const [time, setTime] = useState(25);
   const [notificationMessage, setNotificationMsssage] = useState("Timer completed");
+  const [type, setType] = useState("Work");
 
   function sendWebNotification(title, body, iconURL) {
     if (!("Notification" in window)) {
@@ -34,20 +37,25 @@ function App() {
     }
 }, []);
   
-    function timeSelect(x, color, notifMessage){
+    function timeSelect(x, color, notifMessage, type){
     document.documentElement.style.setProperty('--dynamic-color', color);
     setNotificationMsssage(notifMessage);
     setTime(x);
+    setType(type);
   }
 
   return (
     <>
-    <div id='timeSelect'>
-      <button onClick={() => timeSelect(25, '#fff9a6', "Time for a break!")}>Work/Study</button>
-      <button onClick={() => timeSelect(5, '#f7c6c2', "Let's get back to work! 💪")}>Short Break</button>
-      <button onClick={() => timeSelect(15, '#81d1ff', "Let's get it done! 😤")}>Long Break</button>
-    </div>
-    <TimerComponent time={time} sendWebNotification={sendWebNotification} notificationMessage={notificationMessage}/>
+      <Header/>
+      <main>
+        <div id='timeSelect'>
+          <button onClick={() => timeSelect(25, '#fff9a6', "Time for a break!", "Work")}>Work</button>
+          <button onClick={() => timeSelect(5, '#f7c6c2', "Let's get back to work! 💪", "Short Break")}>Short Break</button>
+          <button onClick={() => timeSelect(15, '#81d1ff', "Let's get it done! 😤", "Long Break")}>Long Break</button>
+        </div>
+        <TimerComponent time={time} type={type} sendWebNotification={sendWebNotification} notificationMessage={notificationMessage}/>
+        </main>
+    <Footer/>
     </>
   )
 }

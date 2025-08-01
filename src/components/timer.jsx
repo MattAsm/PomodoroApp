@@ -1,7 +1,7 @@
 import './timer.css';
 import React, { useState, useEffect, useRef } from 'react';
 
-function Timer({ time, sendWebNotification, notificationMessage }) {
+function Timer({ time, type, sendWebNotification, notificationMessage }) {
     const [isRunning, setIsRunning] = useState(false);
     const [timeRemaining, setTimeRemaining] = useState(Number(time) * 60 * 1000);
 
@@ -55,8 +55,9 @@ function Timer({ time, sendWebNotification, notificationMessage }) {
 
     return (
         <div id='timerBox' >
+            <h1 id="timeType">{type}</h1>
             <h1 id='centerText'>{formatTime()}</h1>
-            <div id='buttons'>
+            <div id='startStopBtn'>
                 <button onClick={start}>{isRunning ? "Pause" : "Start"}</button>
             </div>
         </div>
