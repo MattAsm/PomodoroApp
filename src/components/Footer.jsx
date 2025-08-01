@@ -2,7 +2,7 @@
 function Footer(){
 
     return(
-        <div>
+        <div id='container'>
            <p>&copy; Copyright Matthew Asmunt <br />
                 <a href="https://www.linkedin.com/in/matthew-asmunt/" target="_blank">
                     LinkedIn
@@ -12,6 +12,7 @@ function Footer(){
                     Portfolio
                 </a>
             </p>
+            
         </div>
     );
 }
